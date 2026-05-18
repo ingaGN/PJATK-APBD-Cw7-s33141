@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cwiczenia7.DAL;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace cwiczenia7.Controllers;
 
@@ -6,8 +8,19 @@ namespace cwiczenia7.Controllers;
 [ApiController]
 public class ComputersController : ControllerBase
 {
-    public IActionResult Get()
+    
+    private ComputerDbContext _dbContext;
+    public ComputersController(ComputerDbContext context)
     {
-        return Ok();
+        _dbContext = context;
+    }
+    
+    [HttpGet]
+    [Route("pcs")]
+    public async Task<IActionResult> GetPCs()
+    {
+        var pcs = await _dbContext.PC
+            .ToListAsync();
+        return Ok(pcs);
     }
 }
