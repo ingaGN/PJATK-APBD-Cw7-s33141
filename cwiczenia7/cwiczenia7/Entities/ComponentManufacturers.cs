@@ -6,4 +6,6 @@ public class ComponentManufacturers
     public string Abreviation { get; set; }
     public string FullName { get; set; }
     public DateTime FoundationDate { get; set; }
+    
+    public List<Component> Components { get; set; }
 }

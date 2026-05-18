@@ -12,13 +12,11 @@ public class Component
     public int IdManufacurer { get; set; }
     
     [ForeignKey(nameof(IdManufacurer))]
-    public ComponentManufacturers ComponentManufacturerId { get; set; }
+    public ComponentManufacturers ComponentManufacturer { get; set; }
     
-    public int ComponentId { get; set; }
+    public int ComponentTypeId { get; set; }
     
-    [ForeignKey(nameof(ComponentId))]
-    public ComponentTypes ComponentTypesId { get; set; }
-
-    public List<PCComponent> PCs { get; set; } = new();
-
+    [ForeignKey(nameof(ComponentTypeId))]
+    public ComponentTypes ComponentTypes { get; set; }
+    
 }
