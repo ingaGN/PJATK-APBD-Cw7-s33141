@@ -3,8 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cwiczenia7.DAL;
 
-public class ComputerDbContext(DbContextOptions opt) : DbContext(opt)
-{
+public class ComputerDbContext(DbContextOptions<ComputerDbContext> opt) : DbContext(opt){
     public DbSet<ComponentTypes>  ComponentTypes { get; set; }
     public DbSet<ComponentManufacturers> ComponentManufacturers { get; set; }
     public DbSet<PC> PC { get; set; }

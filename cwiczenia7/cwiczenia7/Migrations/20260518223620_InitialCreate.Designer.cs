@@ -12,8 +12,8 @@ using cwiczenia7.DAL;
 namespace cwiczenia7.Migrations
 {
     [DbContext(typeof(ComputerDbContext))]
-    [Migration("20260518210237_AddPCComponentsTable")]
-    partial class AddPCComponentsTable
+    [Migration("20260518223620_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
