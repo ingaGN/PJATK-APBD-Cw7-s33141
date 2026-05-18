@@ -19,4 +19,6 @@ public class Component
     [ForeignKey(nameof(ComponentTypeId))]
     public ComponentTypes ComponentTypes { get; set; }
     
+    public List<PCComponent> PCComponents { get; set; }
+    
 }

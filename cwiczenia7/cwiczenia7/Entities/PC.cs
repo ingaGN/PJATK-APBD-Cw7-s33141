@@ -11,4 +11,8 @@ public class PC
     public int Warranty { get; set; }
     public DateTime CreatedAt { get; set; }
     public int Stock { get; set; }
+    
+    public int IdPCComponents { get; set; }
+    [ForeignKey(nameof(IdPCComponents))]
+    public List<PCComponent> PCComponents { get; set; }
 }

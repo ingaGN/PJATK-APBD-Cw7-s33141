@@ -9,7 +9,7 @@ public class ComputerDbContext(DbContextOptions opt) : DbContext(opt)
     public DbSet<ComponentManufacturers> ComponentManufacturers { get; set; }
     public DbSet<PC> PC { get; set; }
     public DbSet<Component> Components { get; set; }
-    // public DbSet<PCComponent> PCComponents { get; set; }
+    public DbSet<PCComponent> PCComponents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -42,11 +42,6 @@ public class ComputerDbContext(DbContextOptions opt) : DbContext(opt)
             entity.Property(e => e.Weight).HasColumnType("float(5)");
 
         });
-        
-        // modelBuilder.Entity<PCComponent>(entity =>
-        // {
-        //     entity.HasKey(k => k.I)
-        // })
 
         modelBuilder.Entity<Component>(entity =>
         {
@@ -62,5 +57,20 @@ public class ComputerDbContext(DbContextOptions opt) : DbContext(opt)
         modelBuilder.Entity<Component>().HasOne(c => c.ComponentTypes)
             .WithMany(t => t.Components)
             .HasForeignKey(c => c.ComponentTypeId);
+
+        modelBuilder.Entity<PCComponent>(entity =>
+        {
+            entity.HasKey(e => new
+            { e.PCId, e.ComponentCode });
+        });
+
+        modelBuilder.Entity<PCComponent>()
+            .HasOne(pc => pc.PC)
+            .WithMany(pcc => pcc.PCComponents)
+            .HasForeignKey(pc => pc.PCId);
+        
+        modelBuilder.Entity<PCComponent>().HasOne(pc => pc.Component)
+            .WithMany(pcc => pcc.PCComponents)
+            .HasForeignKey(pc => pc.ComponentCode);
     }
 }
