@@ -16,4 +16,19 @@ public class ComputersController(IComputerService service) : ControllerBase
     {
         return Ok(await service.GetAll(cancellationToken));
     }
+
+    [HttpGet]
+    [Route("pcs/{id:int}")]
+    public async Task<IActionResult> GetPC([FromRoute] int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await service.GetComponentsById(id, cancellationToken));
+
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
 }
