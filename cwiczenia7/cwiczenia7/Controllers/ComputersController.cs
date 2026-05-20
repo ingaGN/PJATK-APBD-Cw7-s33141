@@ -1,4 +1,5 @@
 ﻿using cwiczenia7.DAL;
+using cwiczenia7.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,21 +7,13 @@ namespace cwiczenia7.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ComputersController : ControllerBase
+public class ComputersController(IComputerService service) : ControllerBase
 {
-    
-    private ComputerDbContext _dbContext;
-    public ComputersController(ComputerDbContext context)
-    {
-        _dbContext = context;
-    }
     
     [HttpGet]
     [Route("pcs")]
-    public async Task<IActionResult> GetPCs()
+    public async Task<IActionResult> GetPCs(CancellationToken cancellationToken)
     {
-        var pcs = await _dbContext.PC
-            .ToListAsync();
-        return Ok(pcs);
+        return Ok(await service.GetAll(cancellationToken));
     }
 }
