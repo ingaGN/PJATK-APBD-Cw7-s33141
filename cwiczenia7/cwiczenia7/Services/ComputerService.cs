@@ -1,5 +1,6 @@
 ﻿using cwiczenia7.DAL;
 using cwiczenia7.DTO;
+using cwiczenia7.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace cwiczenia7.Services;
@@ -53,5 +54,22 @@ public class ComputerService(ComputerDbContext context) : IComputerService
                     
                 )).ToList()
             )).ToListAsync(cancellationToken);
+    }
+
+    public async Task<ResponsePC> Add(CreatePCDto dto, CancellationToken cancellationToken)
+    {
+        var pc = new PC
+        {
+            Name = dto.Name,
+            Weight = dto.Weight,
+            Warranty = dto.Warranty,
+            CreatedAt = DateTime.Now,
+            Stock = dto.Stock
+            
+        };
+
+        context.Add(pc);
+        await context.SaveChangesAsync(cancellationToken);
+        return new ResponsePC(pc.Id, pc.Name, pc.Weight, pc.Warranty, pc.CreatedAt, pc.Stock);
     }
 }

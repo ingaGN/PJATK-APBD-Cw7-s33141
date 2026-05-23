@@ -12,7 +12,7 @@ public class PC
     public DateTime CreatedAt { get; set; }
     public int Stock { get; set; }
     
-    public int IdPCComponents { get; set; }
+    public int? IdPCComponents { get; set; }
     [ForeignKey(nameof(IdPCComponents))]
-    public List<PCComponent> PCComponents { get; set; }
+    public List<PCComponent>? PCComponents { get; set; }
 }

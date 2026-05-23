@@ -1,4 +1,7 @@
 ﻿using cwiczenia7.DAL;
+using cwiczenia7.DTO;
+using cwiczenia7.Entities;
+using cwiczenia7.Exceptions;
 using cwiczenia7.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +29,16 @@ public class ComputersController(IComputerService service) : ControllerBase
             return Ok(await service.GetComponentsById(id, cancellationToken));
 
         }
-        catch
+        catch(NotFoundException e)
         {
-            return NotFound();
+            return NotFound(e.Message);
         }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddPC([FromBody] CreatePCDto pcRequest, CancellationToken cancellationToken)
+    {
+        var pc = await service.Add(pcRequest, cancellationToken);
+        return CreatedAtAction(nameof(GetPC), new { id = pc.Id }, pc);
     }
 }
