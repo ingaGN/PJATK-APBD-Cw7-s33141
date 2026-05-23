@@ -1,6 +1,7 @@
 ﻿using cwiczenia7.DAL;
 using cwiczenia7.DTO;
 using cwiczenia7.Entities;
+using cwiczenia7.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace cwiczenia7.Services;
@@ -19,9 +20,9 @@ public class ComputerService(ComputerDbContext context) : IComputerService
         )).ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<PCDetailsDto>> GetComponentsById(int IdPC, CancellationToken cancellationToken)
+    public async Task<PCDetailsDto> GetComponentsById(int IdPC, CancellationToken cancellationToken)
     {
-        return await context.PC
+        var pc =  await context.PC
             .Where(e => e.Id == IdPC)
             .Select(pc => new PCDetailsDto(
                 pc.Id,
@@ -53,7 +54,14 @@ public class ComputerService(ComputerDbContext context) : IComputerService
                         )
                     
                 )).ToList()
-            )).ToListAsync(cancellationToken);
+            )).FirstOrDefaultAsync(cancellationToken);
+        
+        if (pc == null)
+        {
+            throw new NotFoundException($"PC o podanym id {IdPC} nie istnieje w bazie.");
+        }
+
+        return pc;
     }
 
     public async Task<ResponsePC> Add(CreatePCDto dto, CancellationToken cancellationToken)
